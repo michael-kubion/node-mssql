@@ -8,13 +8,14 @@ const cs = require('../../lib/connectionstring')
 
 describe('Connection String', () => {
   it('Connection String #1', done => {
-    let cfg = cs.resolve('Server=192.168.0.1;Database=testdb;User Id=testuser;Password=testpwd')
+    let cfg = cs.resolve('Server=192.168.0.1;Database=testdb;User Id=testuser;Password=testpwd;useUTC=true')
 
     assert.strictEqual(cfg.user, 'testuser')
     assert.strictEqual(cfg.password, 'testpwd')
     assert.strictEqual(cfg.database, 'testdb')
     assert.strictEqual(cfg.server, '192.168.0.1')
     assert.strictEqual(cfg.port, undefined)
+    assert.strictEqual(cfg.options.useUTC, true)
 
     return done()
   })
@@ -40,7 +41,7 @@ describe('Connection String', () => {
   })
 
   it('Connection String #4', done => {
-    let cfg = cs.resolve('mssql://username:password@localhost:1433/database?encrypt=true&stream=true&domain=mydomain&requestTimeout=30000')
+    let cfg = cs.resolve('mssql://username:password@localhost:1433/database?encrypt=true&stream=true&domain=mydomain&requestTimeout=30000&useutc=true')
 
     assert.strictEqual(cfg.user, 'username')
     assert.strictEqual(cfg.password, 'password')
@@ -50,6 +51,7 @@ describe('Connection String', () => {
     assert.strictEqual(cfg.port, 1433)
     assert.strictEqual(cfg.options.encrypt, true)
     assert.strictEqual(cfg.requestTimeout, 30000)
+    assert.strictEqual(cfg.options.useUTC, true)
 
     return done()
   })
